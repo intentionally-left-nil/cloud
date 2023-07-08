@@ -1,17 +1,16 @@
 volumes:
-  reverse-proxy-data:
+  data:
+    name: reverse-proxy-data
 networks:
   ingress:
     name: 'ingress'
 services:
   proxy:
-    image: ghcr.io/intentionally-left-nil/reverse-proxy:0.0.2
-    profiles:
-      - prod
+    image: ghcr.io/intentionally-left-nil/reverse-proxy:0.0.3
     restart: unless-stopped
     volumes:
       - ./secrets/config.json:/etc/reverse_proxy/config.json
-      - reverse-proxy-data:/etc/reverse_proxy/data
+      - data:/etc/reverse_proxy/data
     networks:
       - ingress
     ports:
