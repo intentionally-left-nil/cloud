@@ -5,7 +5,7 @@ After=docker.service
 
 [Service]
 WorkingDirectory=/home/anil/cloud/proxy
-ExecStart=/usr/bin/docker compose up
+ExecStart=/usr/bin/docker compose up --build --pull always --remove-orphans
 ExecStartPost=/usr/bin/docker system prune -f
 ExecStop=/usr/bin/docker compose down
 TimeoutStartSec=0
