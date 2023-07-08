@@ -6,7 +6,7 @@ networks:
     name: 'ingress'
 services:
   proxy:
-    image: ghcr.io/intentionally-left-nil/reverse-proxy:0.0.3
+    image: ghcr.io/intentionally-left-nil/reverse-proxy:main
     restart: unless-stopped
     volumes:
       - ./secrets/config.json:/etc/reverse_proxy/config.json
