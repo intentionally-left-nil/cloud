@@ -1,0 +1,9 @@
+networks:
+  ingress:
+    name: 'ingress'
+    external: true
+services:
+  circles:
+    image: ghcr.io/intentionally-left-nil/focused-search-grid:0.0.1
+    networks:
+      - ingress
