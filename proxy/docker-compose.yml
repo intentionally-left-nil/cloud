@@ -1,0 +1,19 @@
+volumes:
+  reverse-proxy-data:
+networks:
+  ingress:
+    name: 'ingress'
+services:
+  proxy:
+    image: ghcr.io/intentionally-left-nil/reverse-proxy:0.0.2
+    profiles:
+      - prod
+    restart: unless-stopped
+    volumes:
+      - ./secrets/config.json:/etc/reverse_proxy/config.json
+      - reverse-proxy-data:/etc/reverse_proxy/data
+    networks:
+      - ingress
+    ports:
+      - '80:80'
+      - '443:443'
