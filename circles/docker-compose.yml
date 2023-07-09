@@ -4,6 +4,6 @@ networks:
     external: true
 services:
   circles:
-    image: ghcr.io/intentionally-left-nil/focused-search-grid:0.0.1
+    image: ghcr.io/intentionally-left-nil/focused-search-grid:main
     networks:
       - ingress
