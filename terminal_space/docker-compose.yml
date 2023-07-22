@@ -1,0 +1,50 @@
+networks:
+  internal:
+  ingress:
+    name: 'ingress'
+    external: true
+volumes:
+  db:
+
+services:
+  nginx:
+    image: ghcr.io/intentionally-left-nil/wordpress-nginx:main
+    restart: unless-stopped
+    volumes:
+      - ./wordpress:/var/www/html:ro
+    networks:
+      - internal
+      - ingress
+    ports:
+      - 80:80
+  php:
+    image: ghcr.io/intentionally-left-nil/wordpress-php:main
+    restart: unless-stopped
+    env_file:
+      - ./secrets/.env
+    volumes:
+      - ./wordpress:/var/www/html
+    networks:
+      - internal
+
+  db:
+    image: mariadb:11-jammy
+    restart: unless-stopped
+    env_file:
+      - ./secrets/.env
+    volumes:
+      - db:/var/lib/mysql
+      - ./wordpress:/var/www/html
+    networks:
+      - internal
+    healthcheck:
+      test:
+        [
+          'CMD',
+          '/usr/local/bin/healthcheck.sh',
+          '--connect',
+          '--innodb_initialized',
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
