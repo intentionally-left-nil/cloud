@@ -5,13 +5,14 @@ networks:
     external: true
 volumes:
   db:
+  wordpress:
 
 services:
   nginx:
     image: ghcr.io/intentionally-left-nil/wordpress-nginx:main
     restart: unless-stopped
     volumes:
-      - ./wordpress:/var/www/html:ro
+      - wordpress:/var/www/html:ro
     networks:
       - internal
       - ingress
@@ -23,7 +24,7 @@ services:
     env_file:
       - ./secrets/.env
     volumes:
-      - ./wordpress:/var/www/html
+      - wordpress:/var/www/html
     networks:
       - internal
 
@@ -34,7 +35,6 @@ services:
       - ./secrets/.env
     volumes:
       - db:/var/lib/mysql
-      - ./wordpress:/var/www/html
     networks:
       - internal
     healthcheck:
