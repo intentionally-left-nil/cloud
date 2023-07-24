@@ -8,19 +8,19 @@ volumes:
   wordpress:
 
 services:
-  nginx:
+  terminal_space:
     image: ghcr.io/intentionally-left-nil/wordpress-nginx:main
     restart: unless-stopped
+    init: true
     volumes:
       - wordpress:/var/www/html:ro
     networks:
       - internal
       - ingress
-    ports:
-      - 80:80
   php:
     image: ghcr.io/intentionally-left-nil/wordpress-php:main
     restart: unless-stopped
+    init: true
     env_file:
       - ./secrets/.env
     volumes:
@@ -28,9 +28,23 @@ services:
     networks:
       - internal
 
+  wp-cron:
+    build:
+      context: './cron'
+    restart: unless-stopped
+    init: true
+    env_file:
+      - ./secrets/.env
+    volumes:
+      - wordpress:/var/www/html
+
+    networks:
+      - internal
+
   db:
     image: mariadb:11-jammy
     restart: unless-stopped
+    init: true
     env_file:
       - ./secrets/.env
     volumes:

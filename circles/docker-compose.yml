@@ -5,5 +5,6 @@ networks:
 services:
   circles:
     image: ghcr.io/intentionally-left-nil/focused-search-grid:main
+    init: true
     networks:
       - ingress

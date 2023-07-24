@@ -8,6 +8,7 @@ services:
   proxy:
     image: ghcr.io/intentionally-left-nil/reverse-proxy:main
     restart: unless-stopped
+    init: true
     volumes:
       - ./secrets/config.json:/etc/reverse_proxy/config.json
       - data:/etc/reverse_proxy/data
