@@ -4,6 +4,9 @@ volumes:
 networks:
   ingress:
     name: 'ingress'
+  nextcloud-aio:
+    name: nextcloud-aio
+    external: true
 services:
   proxy:
     image: ghcr.io/intentionally-left-nil/reverse-proxy:main
@@ -14,6 +17,7 @@ services:
       - data:/etc/reverse_proxy/data
     networks:
       - ingress
+      - nextcloud-aio
     ports:
       - '80:80'
       - '443:443'
