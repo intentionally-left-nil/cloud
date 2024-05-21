@@ -1,0 +1,23 @@
+networks:
+  ingress:
+    name: 'ingress'
+    external: true
+volumes:
+  phd_db:
+services:
+  wall_of_thanks:
+    image: ghcr.io/intentionally-left-nil/wall_of_thanks-frontend:main
+    init: true
+    volumes:
+      - ./secrets/images/:/usr/share/nginx/html/images
+    networks:
+      - ingress
+  wall_of_thanks_backend:
+    image: ghcr.io/intentionally-left-nil/wall_of_thanks-backend:main
+    init: true
+    volumes:
+      - phd_db:/data/db
+    networks:
+      - ingress
+    env_file:
+      - ./secrets/.env
