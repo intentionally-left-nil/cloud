@@ -1,0 +1,16 @@
+networks:
+  ingress:
+    name: 'ingress'
+    external: true
+volumes:
+  repo_files:
+services:
+  repo:
+    image: ghcr.io/intentionally-left-nil/conda_wheel_server:main
+    init: true
+    volumes:
+      - repo_files:/repodata
+    env_file:
+      - ./secrets/.env
+    networks:
+      - ingress
